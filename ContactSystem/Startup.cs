@@ -1,5 +1,8 @@
+using ContactSystem.Data;
+using ContactSystem.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +26,10 @@ namespace ContactSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<BancoContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DataBase"))); //Adicionar meu banco
+
+            services.AddScoped<IContactRepos, ContactRepos>(); //Quando invocar interfacer, pegar da contactmodel
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
