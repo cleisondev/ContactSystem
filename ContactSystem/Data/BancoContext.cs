@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ContactSystem.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,10 @@ namespace ContactSystem.Data
         public BancoContext(DbContextOptions<BancoContext> options) : base(options) //Padrao de construtor
         {
         }
+
+        //Criação da tabela no banco
+        //Informar qual classe deriva os dados
+        public DbSet<ContactModel> Contatos { get; set; }
 
 
     }
