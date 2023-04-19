@@ -30,15 +30,24 @@ namespace ContactSystem.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            ContactModel contato =  _contactRepos.ListarPorId(id);
+            return View(contato);
         }
 
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            ContactModel contato = _contactRepos.ListarPorId(id);
+            return View(contato);;
         }
+
+        public IActionResult Apagar(int id) //Passar pro post a model que eu quero 
+        {
+            _contactRepos.Apagar(id);
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public  IActionResult Create(ContactModel contact) //Passar pro post a model que eu quero 
         {
@@ -46,10 +55,14 @@ namespace ContactSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Deletar(ContactModel contact) //Passar pro post a model que eu quero 
+        [HttpPost]
+        public IActionResult Alterar(ContactModel contact) //Passar pro post a model que eu quero 
         {
-            _contactRepos.Add(contact);
+            _contactRepos.Atualizar(contact);
             return RedirectToAction("Index");
         }
+
+
+
     }
 }
