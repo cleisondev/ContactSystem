@@ -44,38 +44,71 @@ namespace ContactSystem.Controllers
 
         public IActionResult Apagar(int id) //Passar pro post a model que eu quero 
         {
-            _contactRepos.Apagar(id);
-            return RedirectToAction("Index");
+            try
+            {
+                bool apagado = _contactRepos.Apagar(id);
+
+                if (apagado)
+                {
+                    TempData["MensagemErro"] = "Contato apagado com sucesso!";
+                }
+                else
+                {
+                    TempData["MensagemErro"] = "Ops,  não conseguimos apagar seu contato.";
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch(System.Exception e)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos apagar seu contato, tente novamente, detalhe do erro:{e.Message} .";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public  IActionResult Create(ContactModel contact) //Passar pro post a model que eu quero 
         {
-            if (ModelState.IsValid)
+            try
             {
-                _contactRepos.Add(contact);
+                if (ModelState.IsValid)
+                {
+                    _contactRepos.Add(contact);
+                    TempData["MensagemSucesso"] = "Contato cadastrado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+
+                return View(contact);
+
+            }
+            catch(System.Exception e)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar seu contato, tente novamente, detalhe do erro:{e.Message} .";
                 return RedirectToAction("Index");
             }
-
-            return View(contact);
-            
         }
 
         [HttpPost]
         public IActionResult Alterar(ContactModel contact) //Passar pro post a model que eu quero 
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                _contactRepos.Atualizar(contact);
+                if (ModelState.IsValid)
+                {
+                    _contactRepos.Atualizar(contact);
+                    TempData["MensagemSucesso"] = "Contato alterado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+
+                return View("Edit", contact);
+
+            }
+            catch (System.Exception e)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos alterar seu contato, tente novamente, detalhe do erro:{e.Message} .";
                 return RedirectToAction("Index");
             }
-
-            return View("Edit",contact);
-            
         }
-
-
 
     }
 }
