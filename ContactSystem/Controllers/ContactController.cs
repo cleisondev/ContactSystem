@@ -51,15 +51,28 @@ namespace ContactSystem.Controllers
         [HttpPost]
         public  IActionResult Create(ContactModel contact) //Passar pro post a model que eu quero 
         {
-            _contactRepos.Add(contact);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _contactRepos.Add(contact);
+                return RedirectToAction("Index");
+            }
+
+            return View(contact);
+            
         }
 
         [HttpPost]
         public IActionResult Alterar(ContactModel contact) //Passar pro post a model que eu quero 
         {
-            _contactRepos.Atualizar(contact);
-            return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                _contactRepos.Atualizar(contact);
+                return RedirectToAction("Index");
+            }
+
+            return View("Edit",contact);
+            
         }
 
 
