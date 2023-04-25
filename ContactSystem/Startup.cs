@@ -1,4 +1,5 @@
 using ContactSystem.Data;
+using ContactSystem.Models;
 using ContactSystem.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
